@@ -3,4 +3,5 @@ Visualize in a Unity application some physical properties (pressure, aerodinamic
 Dataset is courtesy of Altair www.altair.com for the course 3D Augmented Reality project - Department of Information Engineering of University of Padua.
 By agreement the dataset will not be public.
 
-Unity version 2020.2.1f1
+Unity 	version 2020.2.1f1
+Vuforia version 9.5.4
