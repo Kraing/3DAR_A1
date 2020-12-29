@@ -63,3 +63,7 @@ Dataset/
 
 # Vuforia
 Vuforia/
+
+# Visual Studio Code cache directory and file
+.vscode/
+*.csproj
