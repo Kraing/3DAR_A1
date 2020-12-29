@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.ptc.vuforia.engine": {
-      "version": "file:C:/Users/Ax09/Desktop/package",
+      "version": "file:../Vuforia",
       "depth": 0,
       "source": "local",
       "dependencies": {
