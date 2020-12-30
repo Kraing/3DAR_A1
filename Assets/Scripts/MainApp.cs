@@ -3,16 +3,86 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
+
+[RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class MainApp : MonoBehaviour
 {
+	private GameObject PointCloudMesh;
+	private Mesh mesh;
+	// Define number of vertex
+	static int num_vertex = 8981484;
+	private Vector3[] vertex_pos = new Vector3[num_vertex];
+
+	void ReadVertexPos()
+	{
+		// Load binary file
+    	byte[] fileBytes = File.ReadAllBytes("Assets/Dataset/vertex_pos.bin");
+		MemoryStream stream = new MemoryStream(fileBytes);
+		BinaryReader reader = new BinaryReader(stream);
+
+		float tmp_x;
+		float tmp_y;
+		float tmp_z;
+		byte[] tmp;
+
+		// Read vetex value [x y z]
+		for (int i=0; i<num_vertex ; i++)
+		{
+			// save x
+			tmp = reader.ReadBytes(4);
+			tmp_x = System.BitConverter.ToSingle(tmp, 0);
+
+			// save y
+			tmp = reader.ReadBytes(4);
+			tmp_y = System.BitConverter.ToSingle(tmp, 0);
+
+			// save z
+			tmp = reader.ReadBytes(4);
+			tmp_z = System.BitConverter.ToSingle(tmp, 0);
+
+			// store values
+			vertex_pos[i] = new Vector3(tmp_x, tmp_y, tmp_z);
+		}
+	}
+
+	
+	void CreateMesh()
+	{
+		int[] indecies = new int[num_vertex];
+		Color[] colors = new Color[num_vertex];
+
+		for(int i=0; i<num_vertex; i++)
+		{
+			indecies[i] = i;
+			colors[i] = new Color(255, 255, 255, 1.0f);
+		}
+
+		mesh.vertices = vertex_pos;
+		mesh.colors = colors;
+		mesh.SetIndices(indecies, MeshTopology.Points,0);
+	}
+	
+
     // Start is called before the first frame update
     void Start()
     {
-
-    	(int[,] tri_mat1, int[,] tri_mat2) = ReadTriangles();
-		
-		Debug.Log(tri_mat1[0 , 0]);
-
+		PointCloudMesh = GameObject.Find("PointCloudMesh");
+		// Load vertex pos
+		ReadVertexPos();
+		//Debug.Log("CloudPoints loaded");
+		/*
+		for(int i=0; i<10; i++)
+		{
+			Debug.Log("Vertex: " + vertex_pos[i][0] + vertex_pos[i][1] + vertex_pos[i][2]);
+		}*/
+		// Create Mesh
+		mesh = new Mesh();
+		mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+		GetComponent<MeshFilter>().mesh = mesh;
+		GetComponent<MeshRenderer> ().material = new Material (Shader.Find("Custom/VertexColor"));
+		CreateMesh();
+		Debug.Log("Mesh Created");
+		PointCloudMesh.transform.Rotate(-90f, 0f, 0f);
     }
 
     // Update is called once per frame
@@ -114,5 +184,4 @@ public class MainApp : MonoBehaviour
 
 		return (tri_mat1, tri_mat2);
 	}
-
 }
