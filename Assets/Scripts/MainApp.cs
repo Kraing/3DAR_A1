@@ -36,6 +36,7 @@ public class MainApp : MonoBehaviour
 		mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
 		GetComponent<MeshFilter>().mesh = mesh;
 		GetComponent<MeshRenderer> ().material = new Material (Shader.Find("Custom/VertexColor"));
+		//GetComponent<MeshRenderer> ().material = new Material (Shader.Find("Legacy Shaders/Diffuse"));
 		CreateMesh();
 		Debug.Log("Mesh Created");
 		// Rotate object
