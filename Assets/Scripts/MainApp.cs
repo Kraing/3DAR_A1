@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Linq;
 
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
@@ -12,69 +13,23 @@ public class MainApp : MonoBehaviour
 	// Define number of vertex
 	static int num_vertex = 8981484;
 	private Vector3[] vertex_pos = new Vector3[num_vertex];
-
-	void ReadVertexPos()
-	{
-		// Load binary file
-    	byte[] fileBytes = File.ReadAllBytes("Assets/Dataset/vertex_pos.bin");
-		MemoryStream stream = new MemoryStream(fileBytes);
-		BinaryReader reader = new BinaryReader(stream);
-
-		float tmp_x;
-		float tmp_y;
-		float tmp_z;
-		byte[] tmp;
-
-		// Read vetex value [x y z]
-		for (int i=0; i<num_vertex ; i++)
-		{
-			// save x
-			tmp = reader.ReadBytes(4);
-			tmp_x = System.BitConverter.ToSingle(tmp, 0);
-
-			// save y
-			tmp = reader.ReadBytes(4);
-			tmp_y = System.BitConverter.ToSingle(tmp, 0);
-
-			// save z
-			tmp = reader.ReadBytes(4);
-			tmp_z = System.BitConverter.ToSingle(tmp, 0);
-
-			// store values
-			vertex_pos[i] = new Vector3(tmp_x, tmp_y, tmp_z);
-		}
-	}
-
-	
-	void CreateMesh()
-	{
-		int[] indecies = new int[num_vertex];
-		Color[] colors = new Color[num_vertex];
-
-		for(int i=0; i<num_vertex; i++)
-		{
-			indecies[i] = i;
-			colors[i] = new Color(255, 255, 255, 1.0f);
-		}
-
-		mesh.vertices = vertex_pos;
-		mesh.colors = colors;
-		mesh.SetIndices(indecies, MeshTopology.Points,0);
-	}
+	private float[] pressure = new float[num_vertex];
+	private float max_p = 0f;
+	private float min_p = 0f;
 	
 
     // Start is called before the first frame update
     void Start()
     {
+		// Reference object
 		PointCloudMesh = GameObject.Find("PointCloudMesh");
+		
 		// Load vertex pos
 		ReadVertexPos();
-		//Debug.Log("CloudPoints loaded");
-		/*
-		for(int i=0; i<10; i++)
-		{
-			Debug.Log("Vertex: " + vertex_pos[i][0] + vertex_pos[i][1] + vertex_pos[i][2]);
-		}*/
+
+		// Load pressure data
+		ReadPressure();
+
 		// Create Mesh
 		mesh = new Mesh();
 		mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
@@ -82,7 +37,10 @@ public class MainApp : MonoBehaviour
 		GetComponent<MeshRenderer> ().material = new Material (Shader.Find("Custom/VertexColor"));
 		CreateMesh();
 		Debug.Log("Mesh Created");
+		// Rotate object
 		PointCloudMesh.transform.Rotate(-90f, 0f, 0f);
+
+		Debug.Log("All loaded");
     }
 
     // Update is called once per frame
@@ -183,5 +141,108 @@ public class MainApp : MonoBehaviour
 		}
 
 		return (tri_mat1, tri_mat2);
+	}
+
+
+	// Read vertex coordinates
+	void ReadVertexPos()
+	{
+		// Load binary file
+    	byte[] fileBytes = File.ReadAllBytes("Assets/Dataset/vertex_pos.bin");
+		MemoryStream stream = new MemoryStream(fileBytes);
+		BinaryReader reader = new BinaryReader(stream);
+
+		float tmp_x;
+		float tmp_y;
+		float tmp_z;
+		byte[] tmp;
+
+		// Read vetex value [x y z]
+		for (int i=0; i<num_vertex ; i++)
+		{
+			// save x
+			tmp = reader.ReadBytes(4);
+			tmp_x = System.BitConverter.ToSingle(tmp, 0);
+
+			// save y
+			tmp = reader.ReadBytes(4);
+			tmp_y = System.BitConverter.ToSingle(tmp, 0);
+
+			// save z
+			tmp = reader.ReadBytes(4);
+			tmp_z = System.BitConverter.ToSingle(tmp, 0);
+
+			// store values
+			vertex_pos[i] = new Vector3(tmp_x, tmp_y, tmp_z);
+		}
+	}
+
+
+	// Read vertex pressure
+	void ReadPressure()
+	{
+		// Load binary file
+    	byte[] fileBytes = File.ReadAllBytes("Assets/Dataset/vertex_pressure.bin");
+		MemoryStream stream = new MemoryStream(fileBytes);
+		BinaryReader reader = new BinaryReader(stream);
+
+		byte[] tmp;
+
+		for (int i=0; i<num_vertex ; i++)
+		{
+			tmp = reader.ReadBytes(4);
+			pressure[i] = System.BitConverter.ToSingle(tmp, 0);
+		}
+
+		max_p = pressure.Max();
+		min_p = pressure.Min();
+
+		// Normalize the pressure from (0-255)
+		float delta = (max_p - min_p) / 1f;
+		for (int i=0; i<num_vertex ; i++)
+		{
+			pressure[i] = (pressure[i] - min_p) / delta;
+		}
+	}
+
+	
+	void CreateMesh()
+	{
+		int[] indecies = new int[num_vertex];
+		Color[] colors = new Color[num_vertex];
+		float delta_1 = 0.4f;
+		float delta_2 = 0.2f;
+
+		for(int i=0; i<num_vertex; i++)
+		{
+			indecies[i] = i;
+
+
+			if(pressure[i] < 0.6f)
+			{
+				colors[i] = Color.Lerp(Color.magenta, Color.blue, pressure[i] / 0.6f);
+			}
+			else if(pressure[i] >= 0.6f && pressure[i] < 0.65f)
+			{
+				colors[i] = Color.Lerp(Color.blue, Color.green, (pressure[i] - 0.6f) / 0.05f);
+			}
+			else if(pressure[i] >= 0.65f && pressure[i] < 0.675f)
+			{
+				colors[i] = Color.Lerp(Color.green, Color.yellow, (pressure[i] - 0.65f) / 0.025f);
+			}
+			else if(pressure[i] >= 0.675f && pressure[i] < 0.7f)
+			{
+				colors[i] = Color.Lerp(Color.yellow, Color.red, (pressure[i] - 0.675f) / 0.025f);
+			}
+			else
+			{
+				colors[i] = Color.Lerp(Color.red, Color.black, (pressure[i] - 0.7f) / 0.3f);
+			}
+			//colors[i] = Color.Lerp(Color.red, Color.green, pressure[i]);
+		}
+
+		mesh.vertices = vertex_pos;
+		mesh.colors = colors;
+		mesh.SetIndices(indecies, MeshTopology.Points,0);
 	}
 }
