@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 using UnityEngine;
 using System.IO;
 using System.Linq;
@@ -23,7 +24,7 @@ public class MainApp : MonoBehaviour
     {
 		// Reference object
 		PointCloudMesh = GameObject.Find("PointCloudMesh");
-		
+
 		// Load vertex pos
 		ReadVertexPos();
 
@@ -52,7 +53,7 @@ public class MainApp : MonoBehaviour
 	void ReadMesh()
 	{
 		// Load binary file
-    	byte[] fileBytes = File.ReadAllBytes("Assets/Dataset/mesh.bin");
+    	byte[] fileBytes = File.ReadAllBytes("Assets/StreamingAssets/mesh.bin");
 		MemoryStream stream = new MemoryStream(fileBytes);
 		BinaryReader reader = new BinaryReader(stream);
 
@@ -112,7 +113,7 @@ public class MainApp : MonoBehaviour
 	(int[,], int[,]) ReadTriangles()
 	{
 		// Load binary file
-    	byte[] fileBytes = File.ReadAllBytes("Assets/Dataset/triangles.bin");
+    	byte[] fileBytes = File.ReadAllBytes("Assets/StreamingAssets/triangles.bin");
 		MemoryStream stream = new MemoryStream(fileBytes);
 		BinaryReader reader = new BinaryReader(stream);
 
@@ -148,7 +149,23 @@ public class MainApp : MonoBehaviour
 	void ReadVertexPos()
 	{
 		// Load binary file
-    	byte[] fileBytes = File.ReadAllBytes("Assets/Dataset/vertex_pos.bin");
+		string file_name = "vertex_pos.bytes";
+		string tmp_path = Path.Combine(Application.streamingAssetsPath, file_name);
+		byte[] fileBytes;
+
+		if (Application.platform == RuntimePlatform.Android)
+		{
+			UnityWebRequest www = UnityWebRequest.Get(tmp_path);
+			www.SendWebRequest();
+			while (!www.isDone) ;
+			fileBytes = www.downloadHandler.data;
+
+		}
+		else
+		{
+			fileBytes = File.ReadAllBytes(tmp_path);
+		}
+
 		MemoryStream stream = new MemoryStream(fileBytes);
 		BinaryReader reader = new BinaryReader(stream);
 
@@ -182,9 +199,33 @@ public class MainApp : MonoBehaviour
 	void ReadPressure()
 	{
 		// Load binary file
-    	byte[] fileBytes = File.ReadAllBytes("Assets/Dataset/vertex_pressure.bin");
+		/*
+    	byte[] fileBytes = File.ReadAllBytes(Application.streamingAssetsPath + "/vertex_pressure.bytes");
 		MemoryStream stream = new MemoryStream(fileBytes);
 		BinaryReader reader = new BinaryReader(stream);
+		*/
+
+		string file_name = "vertex_pressure.bytes";
+		string tmp_path = Path.Combine(Application.streamingAssetsPath, file_name);
+		byte[] fileBytes;
+
+		if (Application.platform == RuntimePlatform.Android)
+		{
+			UnityWebRequest www = UnityWebRequest.Get(tmp_path);
+			www.SendWebRequest();
+			while (!www.isDone) ;
+			fileBytes = www.downloadHandler.data;
+
+		}
+		else
+		{
+			fileBytes = File.ReadAllBytes(tmp_path);
+		}
+
+		MemoryStream stream = new MemoryStream(fileBytes);
+		BinaryReader reader = new BinaryReader(stream);
+
+
 
 		byte[] tmp;
 
@@ -210,13 +251,10 @@ public class MainApp : MonoBehaviour
 	{
 		int[] indecies = new int[num_vertex];
 		Color[] colors = new Color[num_vertex];
-		float delta_1 = 0.4f;
-		float delta_2 = 0.2f;
 
 		for(int i=0; i<num_vertex; i++)
 		{
 			indecies[i] = i;
-
 
 			if(pressure[i] < 0.6f)
 			{

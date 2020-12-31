@@ -63,6 +63,7 @@ Dataset/
 
 # Vuforia
 Vuforia/
+StreamingAssets/
 
 # Visual Studio Code cache directory and file
 .vscode/

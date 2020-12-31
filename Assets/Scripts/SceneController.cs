@@ -8,7 +8,8 @@ public class SceneController : MonoBehaviour
 	// Menu scene swithcer
 	public void StartApp()
     {
-    	SceneManager.LoadScene("application");
+    	//SceneManager.LoadScene("application");
+        SceneManager.LoadSceneAsync("application");
     }
     
     public void CreditsApp()
