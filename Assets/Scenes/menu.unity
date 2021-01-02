@@ -1240,7 +1240,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: For a smart 3d visualization
+  m_Text: For a Smart 3D Visualization
 --- !u!222 &1947983807
 CanvasRenderer:
   m_ObjectHideFlags: 0

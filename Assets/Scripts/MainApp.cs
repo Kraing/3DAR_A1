@@ -41,7 +41,7 @@ public class MainApp : MonoBehaviour
 		Debug.Log("Mesh Created");
 		// Rotate object
 		PointCloudMesh.transform.Rotate(-90f, 0f, 0f);
-
+		//PointCloudMesh.transform.localScale -= new Vector3(0.75f, 0.75f, 0.75f);
 		Debug.Log("All loaded");
     }
 
