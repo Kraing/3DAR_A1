@@ -239,7 +239,7 @@ public class MainApp : MonoBehaviour
 		max_p = pressure.Max();
 		min_p = pressure.Min();
 
-		// Normalize the pressure from (0-255)
+		// Normalize the pressure from (0-1)
 		float delta = (max_p - min_p) / 1f;
 		for (int i=0; i<num_vertex ; i++)
 		{
