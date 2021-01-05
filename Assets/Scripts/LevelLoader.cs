@@ -11,15 +11,16 @@ public class LevelLoader : MonoBehaviour
 
     public void LoadNextLevel()
     {
+        Debug.Log("prima coroutine");
     	StartCoroutine(LoadLevel());
+        Debug.Log("dopo coroutine");
     }
 
-    IEnumerator LoadLevel()
+    public IEnumerator LoadLevel()
     {
-    	transition.SetTrigger("start");
-
-    	yield return new WaitForSeconds(transitionTime);
-
-    	Debug.Log("Load Level FInished");
+        Debug.Log("inizio?");
+        transition.SetTrigger("triggerino");
+        yield return new WaitForSeconds(transitionTime);
+        Debug.Log("set?");	
     }
 }

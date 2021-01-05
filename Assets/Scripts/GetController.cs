@@ -19,7 +19,7 @@ public class GetController : MonoBehaviour
 
         // Get Controller Obj
         Controller = GameObject.Find("Controller");
-        LevelLoader = GameObject.Find("LevelLoader");
+        LevelLoader = GameObject.Find("SceneLoaderObj");
 
         if(scene.name == "menu")
         {
@@ -40,7 +40,6 @@ public class GetController : MonoBehaviour
         {
             Button back_btn = GameObject.Find("menu_btn").GetComponent<Button>();
             back_btn.onClick.AddListener(BackMenu);
-            Debug.Log("MenuReceived");
         }
     }
 
@@ -49,6 +48,7 @@ public class GetController : MonoBehaviour
     {
 		if(Controller != null)
         {
+            LevelLoader.GetComponent<LevelLoader>().LoadNextLevel();
             Controller.GetComponent<SceneController>().LoadingApp();
         }
         else
@@ -61,8 +61,11 @@ public class GetController : MonoBehaviour
     {
 		if(Controller != null)
         {
-            //LevelLoader.GetComponent<LevelLoader>().LoadNextLevel();
+            Debug.Log("prima_di_load_level");
+            LevelLoader.GetComponent<LevelLoader>().LoadNextLevel();
+            Debug.Log("dopo_di_load_level");
             Controller.GetComponent<SceneController>().CreditsApp();
+            Debug.Log("pagina caricata");
         }
         else
         {
