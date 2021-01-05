@@ -30,6 +30,7 @@ public class FlowCloud : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        /*
         // Reference object
 		PointCloudMesh = GameObject.Find("FlowMesh");
 
@@ -51,13 +52,14 @@ public class FlowCloud : MonoBehaviour
         // Rotate object
         PointCloudMesh.transform.Rotate(-90f, 0f, 0f);
         ps = GetComponent<ParticleSystem>();
+        */
     }
 
     // Update is called once per frame
     void Update()
     {
         // Update dynamic visualization
-        ParticleAnimation();
+        //ParticleAnimation();
     }
 
     // Read flowpoints coordinates

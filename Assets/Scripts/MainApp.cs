@@ -21,7 +21,8 @@ public class MainApp : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {
+    {	
+		/*
 		// Reference object
 		PointCloudMesh = GameObject.Find("PointCloudMesh");
 
@@ -43,6 +44,7 @@ public class MainApp : MonoBehaviour
 		PointCloudMesh.transform.Rotate(-90f, 0f, 0f);
 		//PointCloudMesh.transform.localScale -= new Vector3(0.75f, 0.75f, 0.75f);
 		Debug.Log("All loaded");
+		*/
     }
 
     // Update is called once per frame
@@ -199,13 +201,6 @@ public class MainApp : MonoBehaviour
 	// Read vertex pressure
 	void ReadPressure()
 	{
-		// Load binary file
-		/*
-    	byte[] fileBytes = File.ReadAllBytes(Application.streamingAssetsPath + "/vertex_pressure.bytes");
-		MemoryStream stream = new MemoryStream(fileBytes);
-		BinaryReader reader = new BinaryReader(stream);
-		*/
-
 		string file_name = "vertex_pressure.bytes";
 		string tmp_path = Path.Combine(Application.streamingAssetsPath, file_name);
 		byte[] fileBytes;
@@ -225,9 +220,6 @@ public class MainApp : MonoBehaviour
 
 		MemoryStream stream = new MemoryStream(fileBytes);
 		BinaryReader reader = new BinaryReader(stream);
-
-
-
 		byte[] tmp;
 
 		for (int i=0; i<num_vertex ; i++)
