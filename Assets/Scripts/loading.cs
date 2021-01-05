@@ -73,7 +73,8 @@ public class Loading : MonoBehaviour
         {
             coroutine = canvas.GetComponent<GetController>().ChangeScene(3);
             StartCoroutine(coroutine);
-            return;
+            
+            enabled = false;
             //Controller.GetComponent<SceneController>().StartApp();
         }
         
