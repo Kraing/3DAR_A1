@@ -1826,8 +1826,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d8e8c9e96bc0f94c8f7f7b52e5e02b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  back_btn: {fileID: 24204428}
-  Controller: {fileID: 0}
 --- !u!1 &1663442756
 GameObject:
   m_ObjectHideFlags: 0

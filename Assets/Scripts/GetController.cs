@@ -10,6 +10,7 @@ public class GetController : MonoBehaviour
     // Start is called before the first frame update
     //public GameObject back_btn;
     GameObject Controller;
+    GameObject LevelLoader;
 
     void Start()
     {
@@ -18,6 +19,7 @@ public class GetController : MonoBehaviour
 
         // Get Controller Obj
         Controller = GameObject.Find("Controller");
+        LevelLoader = GameObject.Find("LevelLoader");
 
         if(scene.name == "menu")
         {
@@ -38,6 +40,7 @@ public class GetController : MonoBehaviour
         {
             Button back_btn = GameObject.Find("menu_btn").GetComponent<Button>();
             back_btn.onClick.AddListener(BackMenu);
+            Debug.Log("MenuReceived");
         }
     }
 
@@ -58,6 +61,7 @@ public class GetController : MonoBehaviour
     {
 		if(Controller != null)
         {
+            //LevelLoader.GetComponent<LevelLoader>().LoadNextLevel();
             Controller.GetComponent<SceneController>().CreditsApp();
         }
         else
@@ -82,6 +86,7 @@ public class GetController : MonoBehaviour
     {
 		if(Controller != null)
         {
+            LevelLoader.GetComponent<LevelLoader>().LoadNextLevel();
             Controller.GetComponent<SceneController>().BackMainMenu();
         }
         else
