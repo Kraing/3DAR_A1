@@ -14,12 +14,15 @@ public class SceneController : MonoBehaviour
     [SerializeField] GameObject Controller;
 
     // static fields can't be serialized
-    static bool load_model = false;
-    static bool load_flow = false;
+    [SerializeField] public bool load_model;
+    [SerializeField] public bool load_pressure;
+    [SerializeField] public bool load_flow;
 
-    [SerializeField] float progress = 0f;
-    [SerializeField] public bool model_loaded = load_model;
-    [SerializeField] public bool flow_loaded = load_flow;
+    [SerializeField] public float progress_model;
+    [SerializeField] public float progress_pressure;
+    [SerializeField] public float progress_flow;
+    //[SerializeField] public bool model_loaded;
+    //[SerializeField] public bool flow_loaded;
 
 
     // Car model field
@@ -55,6 +58,11 @@ public class SceneController : MonoBehaviour
         // Load model data at first startup
         if(!load_model)
             StartCoroutine("ReadVertexPos");
+
+        
+        if(!load_pressure)
+            StartCoroutine("ReadPressure");
+            
     }
 
 	public void StartApp()
@@ -81,12 +89,16 @@ public class SceneController : MonoBehaviour
         SceneManager.LoadScene("menu");
     }
 
-    /*
+    
     // Start is called before the first frame update
     void Start()
     {
-        SceneManager.LoadScene("application");
+        // Set all checkers to false
+        load_model = false;
+        load_pressure = false;
+        load_flow = false;
     }
+
     /*
     // Update is called once per frame
     void Update()
@@ -141,22 +153,22 @@ public class SceneController : MonoBehaviour
 			// store values
 			vertex_pos[i] = new Vector3(tmp_x, tmp_y, tmp_z);
 
-            // Every 20 points return to main to not freeze the scene
+            // Every 100000 points return to main to not freeze the scene
             if (i%10000 == 0)
             {
-                progress = i*1f / num_vertex * 1f;
+                progress_model = ((i * 1f) / (num_vertex * 1f)) * 100;
                 yield return null;
             }
 		}
 
         // Set model loaded flag
+        progress_model = 100f;
         load_model = true;
-        model_loaded = load_model;
 	}
 
 
 	// Read vertex pressure
-	void ReadPressure()
+	IEnumerator ReadPressure()
 	{
 		string file_name = "vertex_pressure.bytes";
 		string tmp_path = Path.Combine(Application.streamingAssetsPath, file_name);
@@ -183,6 +195,13 @@ public class SceneController : MonoBehaviour
 		{
 			tmp = reader.ReadBytes(4);
 			pressure[i] = System.BitConverter.ToSingle(tmp, 0);
+
+            // Every 20 points return to main to not freeze the scene
+            if (i%10000 == 0)
+            {
+                progress_pressure = ((i*1f) / (num_vertex * 1f)) * 100;
+                yield return null;
+            }
 		}
 
 		max_p = pressure.Max();
@@ -194,5 +213,10 @@ public class SceneController : MonoBehaviour
 		{
 			pressure[i] = (pressure[i] - min_p) / delta;
 		}
+
+        progress_pressure = 100f;
+        load_pressure = true;
 	}
+
+    
 }
