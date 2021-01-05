@@ -348,9 +348,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Controller: {fileID: 256874415}
-  progress: 0
-  model_loaded: 0
-  flow_loaded: 0
+  load_model: 0
+  load_pressure: 0
+  load_flow: 0
+  progress_model: 0
+  progress_pressure: 0
+  progress_flow: 0
 --- !u!4 &256874417
 Transform:
   m_ObjectHideFlags: 0
@@ -1463,5 +1466,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: SceneLoaderObj
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 1970025884748669731, guid: 87ebca3832b9aeb4186a94bfdf1a9311, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 2400
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970025884748669731, guid: 87ebca3832b9aeb4186a94bfdf1a9311, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -2729
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970025885498452466, guid: 87ebca3832b9aeb4186a94bfdf1a9311, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 2400
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970025885498452466, guid: 87ebca3832b9aeb4186a94bfdf1a9311, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 2906
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 1970025884574967431, guid: 87ebca3832b9aeb4186a94bfdf1a9311, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 87ebca3832b9aeb4186a94bfdf1a9311, type: 3}

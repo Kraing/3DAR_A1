@@ -10,7 +10,9 @@ public class GetController : MonoBehaviour
     // Start is called before the first frame update
     //public GameObject back_btn;
     GameObject Controller;
-    GameObject LevelLoader;
+
+    Animator transition;
+
 
     void Start()
     {
@@ -19,7 +21,8 @@ public class GetController : MonoBehaviour
 
         // Get Controller Obj
         Controller = GameObject.Find("Controller");
-        LevelLoader = GameObject.Find("SceneLoaderObj");
+
+        transition = GameObject.Find("Animation_with_rotating_logo").GetComponent<Animator>();
 
         if(scene.name == "menu")
         {
@@ -46,10 +49,10 @@ public class GetController : MonoBehaviour
 
     void StartFunction()
     {
+        int i = 2;
 		if(Controller != null)
         {
-            LevelLoader.GetComponent<LevelLoader>().LoadNextLevel();
-            Controller.GetComponent<SceneController>().LoadingApp();
+            StartCoroutine("ChangeScene", i);
         }
         else
         {
@@ -59,13 +62,10 @@ public class GetController : MonoBehaviour
 
     void CreditsFunction()
     {
+        int i = 1;
 		if(Controller != null)
         {
-            Debug.Log("prima_di_load_level");
-            LevelLoader.GetComponent<LevelLoader>().LoadNextLevel();
-            Debug.Log("dopo_di_load_level");
-            Controller.GetComponent<SceneController>().CreditsApp();
-            Debug.Log("pagina caricata");
+            StartCoroutine("ChangeScene", i);
         }
         else
         {
@@ -75,9 +75,10 @@ public class GetController : MonoBehaviour
 
     void QuitFunction()
     {
+        int i = -1;
 		if(Controller != null)
         {
-            Controller.GetComponent<SceneController>().ExitApp();
+            StartCoroutine("ChangeScene", i);
         }
         else
         {
@@ -87,14 +88,42 @@ public class GetController : MonoBehaviour
 
     void BackMenu()
     {
+        int i = 0;
 		if(Controller != null)
         {
-            LevelLoader.GetComponent<LevelLoader>().LoadNextLevel();
-            Controller.GetComponent<SceneController>().BackMainMenu();
+            StartCoroutine("ChangeScene", i);
         }
         else
         {
             Debug.Log("Controller Object Not Found.");
         }
 	}
+
+
+    public IEnumerator ChangeScene(int k)
+    {
+        transition.SetTrigger("triggerino");
+        yield return new WaitForSeconds(1.5f);
+
+        if(k == -1)
+        {
+            Controller.GetComponent<SceneController>().ExitApp();
+        }
+        else if(k == 0)
+        {
+            Controller.GetComponent<SceneController>().BackMainMenu();
+        }
+        else if(k == 1)
+        {
+            Controller.GetComponent<SceneController>().CreditsApp();
+        }
+        else if(k == 2)
+        {
+            Controller.GetComponent<SceneController>().LoadingApp();
+        }
+        else if(k == 3)
+        {
+            Controller.GetComponent<SceneController>().StartApp();
+        }
+    }
 }

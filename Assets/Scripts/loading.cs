@@ -8,6 +8,7 @@ public class Loading : MonoBehaviour
     GameObject Controller;
 
     GameObject info_text;
+    GameObject canvas;
     private RectTransform rectComponent;
     private float rotateSpeed = 100f;
 
@@ -20,6 +21,8 @@ public class Loading : MonoBehaviour
     float p_pressure;
     float p_flow;
 
+    private IEnumerator coroutine;
+
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +32,8 @@ public class Loading : MonoBehaviour
 
         // Get text Obj
         info_text = GameObject.Find("loading_text");
+
+        canvas = GameObject.Find("Canvas");
 
         // Get object transform property
         rectComponent = GetComponent<RectTransform>();
@@ -66,7 +71,10 @@ public class Loading : MonoBehaviour
         // Check if the data are loaded
         if(model_check && pressure_check && flow_check)
         {
-            Controller.GetComponent<SceneController>().StartApp();
+            coroutine = canvas.GetComponent<GetController>().ChangeScene(3);
+            StartCoroutine(coroutine);
+            return;
+            //Controller.GetComponent<SceneController>().StartApp();
         }
         
         // If not loaded continue with the gear loading animation
