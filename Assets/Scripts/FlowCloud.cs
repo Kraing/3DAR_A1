@@ -255,4 +255,9 @@ public class FlowCloud : MonoBehaviour
         // set the particles back
         ps.SetParticles(particles, particleCount);
     }
+
+    public void UpdateTime(float NewwaitTime)
+    {
+    	waitTime = Mathf.Log(NewwaitTime);
+    }
 }
