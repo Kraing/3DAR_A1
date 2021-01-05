@@ -17,9 +17,9 @@ public class SceneController : MonoBehaviour
     static bool load_model = false;
     static bool load_flow = false;
 
-    [SerializeField] private float progress = 0f;
-    [SerializeField] private bool model_loaded = load_model;
-    [SerializeField] private bool flow_loaded = load_flow;
+    [SerializeField] float progress = 0f;
+    [SerializeField] public bool model_loaded = load_model;
+    [SerializeField] public bool flow_loaded = load_flow;
 
 
     // Car model field
@@ -48,15 +48,19 @@ public class SceneController : MonoBehaviour
 
 
 	// Menu scene swithcer
-	public void StartApp()
+    public void LoadingApp()
     {
-    	//SceneManager.LoadScene("application");
-        SceneManager.LoadSceneAsync("application");
+        SceneManager.LoadScene("loading");
 
         // Load model data at first startup
         if(!load_model)
             StartCoroutine("ReadVertexPos");
+    }
 
+	public void StartApp()
+    {
+    	//SceneManager.LoadScene("application");
+        SceneManager.LoadSceneAsync("application");
     }
     
     public void CreditsApp()

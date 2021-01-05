@@ -49,7 +49,7 @@ public class GetController : MonoBehaviour
     {
 		if(Controller != null)
         {
-            Controller.GetComponent<SceneController>().StartApp();
+            Controller.GetComponent<SceneController>().LoadingApp();
         }
         else
         {
