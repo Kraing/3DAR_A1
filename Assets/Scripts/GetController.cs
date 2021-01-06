@@ -107,7 +107,7 @@ public class GetController : MonoBehaviour
     public IEnumerator ChangeScene(int k)
     {
         transition.SetTrigger("triggerino");
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.61f);
 
         if(k == -1)
         {
