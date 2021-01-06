@@ -7,8 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class GetController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    //public GameObject back_btn;
+
     GameObject Controller;
 
     Animator transition;
@@ -22,6 +21,7 @@ public class GetController : MonoBehaviour
         // Get Controller Obj
         Controller = GameObject.Find("Controller");
 
+        // Get animator for scene transition
         transition = GameObject.Find("Animation_with_rotating_logo").GetComponent<Animator>();
 
         if(scene.name == "menu")
@@ -49,10 +49,17 @@ public class GetController : MonoBehaviour
 
     void StartFunction()
     {
-        int i = 2;
 		if(Controller != null)
         {
-            StartCoroutine("ChangeScene", i);
+            float p_model = Controller.GetComponent<SceneController>().progress_model;
+            float p_pressure = Controller.GetComponent<SceneController>().progress_pressure;
+            float p_flow = Controller.GetComponent<SceneController>().progress_flow;
+
+            // Based on progress bar decide if use loading scene or directly application scene
+            if(p_model==100f && p_pressure==100f && p_flow==100f)
+                StartCoroutine("ChangeScene", 3);
+            else
+                StartCoroutine("ChangeScene", 2);
         }
         else
         {
@@ -62,10 +69,9 @@ public class GetController : MonoBehaviour
 
     void CreditsFunction()
     {
-        int i = 1;
 		if(Controller != null)
         {
-            StartCoroutine("ChangeScene", i);
+            StartCoroutine("ChangeScene", 1);
         }
         else
         {
@@ -75,10 +81,9 @@ public class GetController : MonoBehaviour
 
     void QuitFunction()
     {
-        int i = -1;
 		if(Controller != null)
         {
-            StartCoroutine("ChangeScene", i);
+            StartCoroutine("ChangeScene", -1);
         }
         else
         {
@@ -88,10 +93,9 @@ public class GetController : MonoBehaviour
 
     void BackMenu()
     {
-        int i = 0;
 		if(Controller != null)
         {
-            StartCoroutine("ChangeScene", i);
+            StartCoroutine("ChangeScene", 0);
         }
         else
         {
