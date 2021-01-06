@@ -9,12 +9,13 @@ using System.Linq;
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class MainApp : MonoBehaviour
 {
-	private GameObject PointCloudMesh;
-	private Mesh mesh;
+	GameObject PointCloudMesh;
+	GameObject Controller;
+	Mesh mesh;
 	// Define number of vertex
-	static int num_vertex = 8981484;
-	private Vector3[] vertex_pos = new Vector3[num_vertex];
-	private float[] pressure = new float[num_vertex];
+	int num_vertex;
+	private Vector3[] vertex_pos;
+	private float[] pressure;
 	private float max_p = 0f;
 	private float min_p = 0f;
 	
@@ -22,29 +23,29 @@ public class MainApp : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {	
-		/*
+		
 		// Reference object
 		PointCloudMesh = GameObject.Find("PointCloudMesh");
+		Controller = GameObject.Find("Controller");
 
+		// Access to loaded variable
+		num_vertex = SceneController.num_vertex_m;
+		vertex_pos = Controller.GetComponent<SceneController>().vertex_pos_m;
+		pressure = Controller.GetComponent<SceneController>().pressure;
+
+
+		/*
 		// Load vertex pos
 		ReadVertexPos();
-
 		// Load pressure data
 		ReadPressure();
+		*/
 
 		// Create Mesh
-		mesh = new Mesh();
-		mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
-		GetComponent<MeshFilter>().mesh = mesh;
-		GetComponent<MeshRenderer> ().material = new Material (Shader.Find("Custom/VertexColor"));
-		//GetComponent<MeshRenderer> ().material = new Material (Shader.Find("Legacy Shaders/Diffuse"));
 		CreateMesh();
-		Debug.Log("Mesh Created");
+		Debug.Log("Model Mesh Created");
 		// Rotate object
 		PointCloudMesh.transform.Rotate(-90f, 0f, 0f);
-		//PointCloudMesh.transform.localScale -= new Vector3(0.75f, 0.75f, 0.75f);
-		Debug.Log("All loaded");
-		*/
     }
 
     // Update is called once per frame
@@ -245,6 +246,12 @@ public class MainApp : MonoBehaviour
 		int[] indecies = new int[num_vertex];
 		Color[] colors = new Color[num_vertex];
 
+		mesh = new Mesh();
+		mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+		GetComponent<MeshFilter>().mesh = mesh;
+		GetComponent<MeshRenderer> ().material = new Material (Shader.Find("Custom/VertexColor"));
+
+
 		for(int i=0; i<num_vertex; i++)
 		{
 			indecies[i] = i;
@@ -269,7 +276,6 @@ public class MainApp : MonoBehaviour
 			{
 				colors[i] = Color.Lerp(Color.red, Color.black, (pressure[i] - 0.7f) / 0.3f);
 			}
-			//colors[i] = Color.Lerp(Color.red, Color.green, pressure[i]);
 		}
 
 		mesh.vertices = vertex_pos;

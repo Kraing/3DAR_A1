@@ -19,18 +19,18 @@ public class SceneController : MonoBehaviour
     [SerializeField] public float progress_flow;
 
     // Car model field
-	static int num_vertex_m = 8981484;
-	Vector3[] vertex_pos_m = new Vector3[num_vertex_m];
-	float[] pressure = new float[num_vertex_m];
+	public static int num_vertex_m = 8981484;
+	public Vector3[] vertex_pos_m = new Vector3[num_vertex_m];
+	public float[] pressure = new float[num_vertex_m];
 	float max_p = 0f;
 	float min_p = 0f;
 
     // Flow field
-	static int num_flows = 603;
-    static int time_instants = 125;
-	static int num_vertex_f = num_flows * time_instants;
-	Vector3[] vertex_pos_f = new Vector3[num_vertex_f];
-    float[] intensity = new float[num_vertex_f];
+	public static int num_flows = 603;
+    public static int time_instants = 125;
+	public static int num_vertex_f = num_flows * time_instants;
+	public Vector3[] vertex_pos_f = new Vector3[num_vertex_f];
+    public float[] intensity = new float[num_vertex_f];
     float max_i = 0f;
 	float min_i = 0f;
 
@@ -278,10 +278,10 @@ public class SceneController : MonoBehaviour
                 progress_flow = ((i*num_flows*1f) / (num_vertex_f * 1f)) * 100;
                 yield return null;
             }
-
-			NormalizeValues("flow");
-			progress_flow = 100f;
         }
+		
+		NormalizeValues("flow");
+		progress_flow = 100f;
     }
 
 	void NormalizeValues(string data_type)
