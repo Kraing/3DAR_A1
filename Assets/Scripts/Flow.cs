@@ -41,7 +41,10 @@ public class Flow : MonoBehaviour
 		intensity = Controller.GetComponent<SceneController>().intensity;
 
 
-        CreateMesh();
+        //StartCoroutine("CreateMesh", 0);
+
+        // start with particle system off
+        ps.Stop();
         PointCloudMesh.transform.Rotate(-90f, 0f, 0f);
     }
 
@@ -52,7 +55,7 @@ public class Flow : MonoBehaviour
     }
 
 
-    void CreateMesh()
+    public IEnumerator CreateMesh(int render_color)
     {
         // Init mesh params
         int[] indecies = new int[num_vertex];
@@ -64,18 +67,40 @@ public class Flow : MonoBehaviour
         GetComponent<MeshFilter>().mesh = mesh;
         GetComponent<MeshRenderer> ().material = new Material (Shader.Find("Custom/VertexColor"));
 
-        // Loop over data
-        for(int i=0; i<num_vertex; i++)
-        {
-            indecies[i] = i;
-
-            if(intensity[i] < 0.1f)
-			{
-				colors[i] = Color.Lerp(Color.clear, Color.white, intensity[i] / 0.1f);
-			}
-            else
+        if(render_color == 0)
+		{
+            for(int i=0; i<num_vertex; i++)
             {
-                colors[i] = Color.Lerp(Color.white, Color.red, (intensity[i] - 0.1f) / 0.9f);
+                indecies[i] = i;
+
+                colors[i] = Color.Lerp(Color.white, Color.black, intensity[i]);
+
+                if (i%10000 == 0)
+                {
+                    yield return null;
+                }
+            }
+        }
+        else if(render_color == 1)
+        {
+            // Render Color Gradient mesh
+            for(int i=0; i<num_vertex; i++)
+            {
+                indecies[i] = i;
+
+                if(intensity[i] < 0.1f)
+                {
+                    colors[i] = Color.Lerp(Color.clear, Color.white, intensity[i] / 0.1f);
+                }
+                else
+                {
+                    colors[i] = Color.Lerp(Color.white, Color.red, (intensity[i] - 0.1f) / 0.9f);
+                }
+
+                if (i%10000 == 0)
+                {
+                    yield return null;
+                }
             }
         }
 

@@ -42,7 +42,19 @@ public class GetController : MonoBehaviour
         else if(scene.name == "application")
         {
             Button back_btn = GameObject.Find("menu_btn").GetComponent<Button>();
+            Button settings_btn = GameObject.Find("ModelSettings_Button").GetComponent<Button>();
+            Button model_bw = GameObject.Find("Show_BW").GetComponent<Button>();
+            Button model_color = GameObject.Find("Show_Gradient").GetComponent<Button>();
+            Button flow_bw = GameObject.Find("Show_BWF").GetComponent<Button>();
+            Button flow_color = GameObject.Find("Show_GradientF").GetComponent<Button>();
+
+
             back_btn.onClick.AddListener(BackMenu);
+            settings_btn.onClick.AddListener(SettingsTrigger);
+            model_bw.onClick.AddListener(ShowBW_M);
+            model_color.onClick.AddListener(ShowColor_M);
+            flow_bw.onClick.AddListener(ShowBW_F);
+            flow_color.onClick.AddListener(ShowColor_F);
         }
     }
 
@@ -102,6 +114,65 @@ public class GetController : MonoBehaviour
             Debug.Log("Controller Object Not Found.");
         }
 	}
+
+
+    void SettingsTrigger()
+    {
+        Animator slider = GameObject.Find("ModelSettings").GetComponent<Animator>();
+        GameObject settings_btn = GameObject.Find("ModelSettings_Button");
+
+        if(slider.GetBool("slide") == false)
+        {
+            // trigger slide-in animation and change button sprite
+            slider.SetBool("slide", true);
+            settings_btn.GetComponent<Image>().sprite = settings_btn.GetComponent<SettingsButton>().open;
+            return;
+        }
+        else if(slider.GetBool("slide") == true)
+        {
+            // trigger slide-out animation and change button sprite
+            slider.SetBool("slide", false);
+            settings_btn.GetComponent<Image>().sprite = settings_btn.GetComponent<SettingsButton>().normal;
+            return;
+        }
+    }
+
+    void ShowBW_M()
+    {
+        GameObject model = GameObject.Find("ModelMesh");
+
+        // Generate black-white mesh
+        IEnumerator tmp = model.GetComponent<Model>().CreateMesh(0);
+        StartCoroutine(tmp);
+    }
+
+    void ShowColor_M()
+    {
+        GameObject model = GameObject.Find("ModelMesh");
+
+        // Generate colored mesh
+        IEnumerator tmp = model.GetComponent<Model>().CreateMesh(1);
+        StartCoroutine(tmp);
+    }
+
+
+    void ShowBW_F()
+    {
+        GameObject model = GameObject.Find("FlowMesh");
+
+        // Generate black-white mesh
+        IEnumerator tmp = model.GetComponent<Flow>().CreateMesh(0);
+        StartCoroutine(tmp);
+    }
+
+    void ShowColor_F()
+    {
+        GameObject model = GameObject.Find("FlowMesh");
+
+        // Generate colored mesh
+        IEnumerator tmp = model.GetComponent<Flow>().CreateMesh(1);
+        StartCoroutine(tmp);
+    }
 
 
     public IEnumerator ChangeScene(int k)
