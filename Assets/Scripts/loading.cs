@@ -8,7 +8,7 @@ public class Loading : MonoBehaviour
     GameObject Controller;
     GameObject info_text;
     GameObject canvas;
-    
+
     private RectTransform rectComponent;
     private float rotateSpeed = 100f;
 
@@ -45,7 +45,7 @@ public class Loading : MonoBehaviour
 
         // Print the progress to screen
         info_text.GetComponent<Text>().text = "Loading car model " + p_model.ToString("0.00") + "%" + "\n"
-                                                + "Loading pressure " +p_pressure.ToString("0.00") + "%" + "\n"
+                                                + "Loading pressure " + p_pressure.ToString("0.00") + "%" + "\n"
                                                 + "Loading flow " + p_flow.ToString("0.00") + "%";
         
 
