@@ -23,7 +23,7 @@ public class Flow : MonoBehaviour
     // Dynamic visualization - particle system
     ParticleSystem ps;
     int time_idx = 0;
-    [SerializeField] float waitTime = 0.01f;
+    [SerializeField] public float waitTime = 0.01f;
     float timer = 0.0f;
 
     // Start is called before the first frame update
