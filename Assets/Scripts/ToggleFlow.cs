@@ -19,12 +19,11 @@ public class ToggleFlow : MonoBehaviour
     {
         if(change.isOn)
         {
-            flow.SetActive(true);
-            // Stop the particle animation
-            GameObject.Find("FlowMesh").GetComponent<ParticleSystem>().Stop();
+            flow.GetComponent<MeshRenderer>().enabled = true;
         }
         else
-            flow.SetActive(false);
-
+        {
+            flow.GetComponent<MeshRenderer>().enabled = false;
+        }
     }
 }

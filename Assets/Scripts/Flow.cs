@@ -142,7 +142,7 @@ public class Flow : MonoBehaviour
                     particles[i].startColor = Color.Lerp(Color.white, Color.red, (intensity[time_idx*num_flows + i] - 0.1f) / 0.9f);
                 }
 
-                particles[i].startSize = 5f;
+                particles[i].startSize = 0.1f;
             }
 
             // update timer index
@@ -180,7 +180,7 @@ public class Flow : MonoBehaviour
                     particles[i].startColor = Color.Lerp(Color.white, Color.red, (intensity[time_idx*num_flows + i] - 0.1f) / 0.9f);
                 }
 
-                particles[i].startSize = 5f;
+                particles[i].startSize = 0.1f;
             }         
         }
 

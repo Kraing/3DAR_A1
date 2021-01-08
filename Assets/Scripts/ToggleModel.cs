@@ -20,8 +20,12 @@ public class ToggleModel : MonoBehaviour
     void ToggleValueChanged(Toggle change)
     {
         if(change.isOn)
-            model.SetActive(true);
+        {
+            model.GetComponent<MeshRenderer>().enabled = true;
+        }
         else
-            model.SetActive(false);
+        {
+            model.GetComponent<MeshRenderer>().enabled = false;
+        }
     }
 }
