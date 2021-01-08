@@ -19,6 +19,6 @@ public class SliderScript : MonoBehaviour
     // Update the waitTime to change particle animation speed
     void UpdateSpeed()
     {
-        flow.GetComponent<Flow>().waitTime = slider.value;
+        flow.GetComponent<Flow>().waitTime = Mathf.Log(slider.value);
     }
 }
