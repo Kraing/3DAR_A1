@@ -143,29 +143,61 @@ public class GetController : MonoBehaviour
 
     void ShowBW_M()
     {
-        IEnumerator tmp = LoadMesh("Model", 0);
-        StartCoroutine(tmp);
+        Toggle model_toggle = GameObject.Find("Toggle_Model").GetComponent<Toggle>();
+        if(model_toggle.isOn)
+        {
+            IEnumerator tmp = LoadMesh("Model", 0);
+            StartCoroutine(tmp);
+        }
+        else
+        {
+            return;
+        }
     }
 
 
     void ShowColor_M()
     {
-        IEnumerator tmp = LoadMesh("Model", 1);
-        StartCoroutine(tmp);
+        Toggle model_toggle = GameObject.Find("Toggle_Model").GetComponent<Toggle>();
+        if(model_toggle.isOn)
+        {
+            IEnumerator tmp = LoadMesh("Model", 1);
+            StartCoroutine(tmp);
+        }
+        else
+        {
+            return;
+        }
     }
 
 
     void ShowBW_F()
     {
-        IEnumerator tmp = LoadMesh("Flow", 0);
-        StartCoroutine(tmp);
+        Toggle flow_toggle = GameObject.Find("Toggle_Flow").GetComponent<Toggle>();
+        if(flow_toggle.isOn)
+        {
+            IEnumerator tmp = LoadMesh("Flow", 0);
+            StartCoroutine(tmp);
+        }
+        else
+        {
+            return;
+        }
     }
 
 
     void ShowColor_F()
     {
-        IEnumerator tmp = LoadMesh("Flow", 1);
-        StartCoroutine(tmp);
+        Toggle flow_toggle = GameObject.Find("Toggle_Flow").GetComponent<Toggle>();
+        if(flow_toggle.isOn)
+        {
+            IEnumerator tmp = LoadMesh("Flow", 1);
+            StartCoroutine(tmp);
+        }
+        else
+        {
+            return;
+        }
     }
 
 
