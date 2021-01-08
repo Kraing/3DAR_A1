@@ -79,6 +79,7 @@ public class GetController : MonoBehaviour
         }
 	}
 
+
     void CreditsFunction()
     {
 		if(Controller != null)
@@ -91,6 +92,7 @@ public class GetController : MonoBehaviour
         }
 	}
 
+
     void QuitFunction()
     {
 		if(Controller != null)
@@ -102,6 +104,7 @@ public class GetController : MonoBehaviour
             Debug.Log("Controller Object Not Found.");
         }
 	}
+
 
     void BackMenu()
     {
@@ -137,41 +140,50 @@ public class GetController : MonoBehaviour
         }
     }
 
+
     void ShowBW_M()
     {
-        GameObject model = GameObject.Find("ModelMesh");
-
-        // Generate black-white mesh
-        IEnumerator tmp = model.GetComponent<Model>().CreateMesh(0);
+        IEnumerator tmp = LoadMesh("Model", 0);
         StartCoroutine(tmp);
     }
 
+
     void ShowColor_M()
     {
-        GameObject model = GameObject.Find("ModelMesh");
-
-        // Generate colored mesh
-        IEnumerator tmp = model.GetComponent<Model>().CreateMesh(1);
+        IEnumerator tmp = LoadMesh("Model", 1);
         StartCoroutine(tmp);
     }
 
 
     void ShowBW_F()
     {
-        GameObject model = GameObject.Find("FlowMesh");
-
-        // Generate black-white mesh
-        IEnumerator tmp = model.GetComponent<Flow>().CreateMesh(0);
+        IEnumerator tmp = LoadMesh("Flow", 0);
         StartCoroutine(tmp);
     }
 
+
     void ShowColor_F()
     {
-        GameObject model = GameObject.Find("FlowMesh");
-
-        // Generate colored mesh
-        IEnumerator tmp = model.GetComponent<Flow>().CreateMesh(1);
+        IEnumerator tmp = LoadMesh("Flow", 1);
         StartCoroutine(tmp);
+    }
+
+
+    public IEnumerator LoadMesh(string name, int i)
+    {
+        transition.SetTrigger("triggerino");
+        yield return new WaitForSeconds(1f);
+        if(name == "Model")
+        {
+            GameObject model = GameObject.Find("ModelMesh");
+            model.GetComponent<Model>().CreateMesh(i);
+        }
+        else if(name == "Flow")
+        {
+            GameObject model = GameObject.Find("FlowMesh");
+            model.GetComponent<Flow>().CreateMesh(i);
+        }
+        transition.SetTrigger("triggerino");
     }
 
 

@@ -30,8 +30,8 @@ public class Model : MonoBehaviour
 		pressure = Controller.GetComponent<SceneController>().pressure;
 
         // Create mesh
-		StartCoroutine("CreateMesh", 0);
-        //CreateMesh(0);
+		//StartCoroutine("CreateMesh", 0);
+        CreateMesh(0);
 
 		// Rotate object
 		PointCloudMesh.transform.Rotate(-90f, 0f, 0f);
@@ -43,7 +43,7 @@ public class Model : MonoBehaviour
         
     }
 
-    public IEnumerator CreateMesh(int render_color)
+    public void CreateMesh(int render_color)
 	{
 		int[] indecies = new int[num_vertex];
 		Color[] colors = new Color[num_vertex];
@@ -60,10 +60,6 @@ public class Model : MonoBehaviour
 			{
 				indecies[i] = i;
 				colors[i] = Color.Lerp(Color.white, Color.black, pressure[i]);
-				if (i%10000 == 0)
-				{
-					yield return null;
-				}
 			}
 		}
 		else if(render_color == 1)
@@ -92,10 +88,6 @@ public class Model : MonoBehaviour
 				else
 				{
 					colors[i] = Color.Lerp(Color.red, Color.black, (pressure[i] - 0.7f) / 0.3f);
-				}
-				if (i%10000 == 0)
-				{
-					yield return null;
 				}
 			}
 		}

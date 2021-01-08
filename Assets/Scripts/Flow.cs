@@ -42,6 +42,7 @@ public class Flow : MonoBehaviour
 
 
         //StartCoroutine("CreateMesh", 0);
+        //CreateMesh(0);
 
         // start with particle system off
         ps.Stop();
@@ -55,7 +56,7 @@ public class Flow : MonoBehaviour
     }
 
 
-    public IEnumerator CreateMesh(int render_color)
+    public void CreateMesh(int render_color)
     {
         // Init mesh params
         int[] indecies = new int[num_vertex];
@@ -72,13 +73,7 @@ public class Flow : MonoBehaviour
             for(int i=0; i<num_vertex; i++)
             {
                 indecies[i] = i;
-
                 colors[i] = Color.Lerp(Color.white, Color.black, intensity[i]);
-
-                if (i%10000 == 0)
-                {
-                    yield return null;
-                }
             }
         }
         else if(render_color == 1)
@@ -95,11 +90,6 @@ public class Flow : MonoBehaviour
                 else
                 {
                     colors[i] = Color.Lerp(Color.white, Color.red, (intensity[i] - 0.1f) / 0.9f);
-                }
-
-                if (i%10000 == 0)
-                {
-                    yield return null;
                 }
             }
         }
@@ -151,6 +141,8 @@ public class Flow : MonoBehaviour
                 {
                     particles[i].startColor = Color.Lerp(Color.white, Color.red, (intensity[time_idx*num_flows + i] - 0.1f) / 0.9f);
                 }
+
+                particles[i].startSize = 5f;
             }
 
             // update timer index
@@ -187,6 +179,8 @@ public class Flow : MonoBehaviour
                 {
                     particles[i].startColor = Color.Lerp(Color.white, Color.red, (intensity[time_idx*num_flows + i] - 0.1f) / 0.9f);
                 }
+
+                particles[i].startSize = 5f;
             }         
         }
 
