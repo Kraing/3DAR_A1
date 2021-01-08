@@ -20,8 +20,8 @@ public class SceneController : MonoBehaviour
 
     // Car model field
 	public static int num_vertex_m = 8981484;
-	public Vector3[] vertex_pos_m = new Vector3[num_vertex_m];
-	public float[] pressure = new float[num_vertex_m];
+	public Vector3[] vertex_pos_m;
+	public float[] pressure;
 	float max_p = 0f;
 	float min_p = 0f;
 
@@ -29,8 +29,8 @@ public class SceneController : MonoBehaviour
 	public static int num_flows = 603;
     public static int time_instants = 125;
 	public static int num_vertex_f = num_flows * time_instants;
-	public Vector3[] vertex_pos_f = new Vector3[num_vertex_f];
-    public float[] intensity = new float[num_vertex_f];
+	public Vector3[] vertex_pos_f;
+    public float[] intensity;
     float max_i = 0f;
 	float min_i = 0f;
 
@@ -42,6 +42,10 @@ public class SceneController : MonoBehaviour
 		progress_model = 0f;
     	progress_pressure = 0f;
     	progress_flow = 0f;
+        vertex_pos_m = new Vector3[num_vertex_m];
+	    pressure = new float[num_vertex_m];
+        vertex_pos_f = new Vector3[num_vertex_f];
+        intensity = new float[num_vertex_f];
     }
 
     /*
