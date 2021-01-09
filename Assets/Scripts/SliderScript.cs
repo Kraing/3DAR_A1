@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+[System.Serializable]
 public class SliderScript : MonoBehaviour
 {
+    [SerializeField] GameObject flow;
     Slider slider;
-    GameObject flow;
 
     // Start is called before the first frame update
     void Start()
     {
         slider = GetComponent<Slider>();
-        flow = GameObject.Find("FlowMesh");
         slider.onValueChanged.AddListener(delegate {UpdateSpeed();});
     }
 
