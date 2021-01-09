@@ -69,6 +69,8 @@ public class Model : MonoBehaviour
 			{
 				indecies[i] = i;
 
+				// Old color palete
+				/*
 				if(pressure[i] < 0.6f)
 				{
 					colors[i] = Color.Lerp(Color.magenta, Color.blue, pressure[i] / 0.6f);
@@ -89,6 +91,34 @@ public class Model : MonoBehaviour
 				{
 					colors[i] = Color.Lerp(Color.red, Color.black, (pressure[i] - 0.7f) / 0.3f);
 				}
+				*/
+				
+				// new color palete based on histogram plot
+				if(pressure[i] < 0.6f)
+				{
+					colors[i] = Color.Lerp(Color.magenta, Color.blue, pressure[i] / 0.6f);
+				}
+				else if(pressure[i] >= 0.6f && pressure[i] < 0.63f)
+				{
+					colors[i] = Color.Lerp(Color.blue, Color.cyan, (pressure[i] - 0.6f) / 0.03f);
+				}
+				else if(pressure[i] >= 0.63f && pressure[i] < 0.64f)
+				{
+					colors[i] = Color.Lerp(Color.cyan, Color.green, (pressure[i] - 0.63f) / 0.01f);
+				}
+				else if(pressure[i] >= 0.64f && pressure[i] < 0.66f)
+				{
+					colors[i] = Color.Lerp(Color.green, Color.yellow, (pressure[i] - 0.64f) / 0.02f);
+				}
+				else if(pressure[i] >= 0.66f && pressure[i] < 0.8f)
+				{
+					colors[i] = Color.Lerp(Color.yellow, Color.red, (pressure[i] - 0.66f) / 0.14f);
+				}
+				else
+				{
+					colors[i] = Color.red;
+				}
+
 			}
 		}
 		
