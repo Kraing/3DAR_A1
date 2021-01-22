@@ -13,6 +13,5 @@ Vuforia version 9.5.4<br/>
 ![plot](./Previews/01_menu_screen.png)
 ![plot](./Previews/03_loading_screen.png)
 ![plot](./Previews/05_bw_model_2.jpg)
-![plot](./Previews/09_color_model_1.jpg)
+![plot](./Previews/09_color_model_2.jpg)
 ![plot](./Previews/12_color_flow_2.jpg)
-![plot](./Previews/13_animation_highlights.jpg)
