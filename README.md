@@ -10,5 +10,6 @@ Unity 	version 2020.2.1f1<br/>
 Vuforia version 9.5.4<br/>
 
 ## User Interface
-![plot](./Previews/01_menu_screen.png){:height="50%" width="50%"}
-
+![plot](./Previews/01_menu_screen.png)
+![plot](./Previews/03_loading_screen.png)
+![plot](./Previews/05_bw_model_2.jpg)
